@@ -20,8 +20,68 @@ namespace Boostability_Route_Application_Repo
                 Console.WriteLine(arr[i]);
             }
         }
+        //Main code that will takin in the array and either give out successfull route list or runn error becuase of circular reference
+        static void createRoutes(string[] arrRoute)
+        {
+            Console.WriteLine("Final List of Routes:");
+            List<string> originalList = new List<string>(arrRoute);
+            List<string> finalList = new List<string>();
 
-       
+            for (int i = 0; i < originalList.Count; i++)
+            {
+                if (originalList[i] == originalList.Last())
+                {
+                    finalList.Add(originalList[i]);
+                }
+                else
+                {
+                    string listString = string.Join(",", originalList[i]);
+                    string listString2 = string.Join(",", originalList[i + 1]);
+                    List<string> tempList = new List<string>();
+                    List<string> tempList2 = new List<string>();
+                    string[] splittedStringArray = listString.Split(" -> ");
+                    foreach (string stringInArray in splittedStringArray)
+                    {
+                        tempList.Add(stringInArray);
+                    }
+                    string[] splittedStringArray2 = listString2.Split(" -> ");
+                    foreach (string stringInArray1 in splittedStringArray2)
+                    {
+                        tempList2.Add(stringInArray1);
+                    }
+
+                    if (tempList.First() == tempList2.Last())
+                    {
+                        Console.WriteLine("exception Thrown " + listString + " is the same route as " + listString2);
+                        originalList.Remove(originalList[i + 1]);
+                    }
+
+                    else if (tempList.Last() == tempList2.First())
+                    {
+                        tempList2.RemoveAt(0);
+                        tempList.AddRange(tempList2);
+                        string finalString = string.Join(" -> ", tempList);
+                        finalList.Add(finalString);
+                        tempList.Clear();
+                        tempList2.Clear();
+                        Array.Clear(splittedStringArray, 0, splittedStringArray.Length);
+                        Array.Clear(splittedStringArray2, 0, splittedStringArray2.Length);
+                        originalList.Remove(originalList[i + 1]);
+                    }
+                    else
+                    {
+                        finalList.Add(listString);
+                    }
+                }
+            }
+
+            foreach (var month in finalList)
+            {
+                Console.WriteLine(month);
+            }
+        }
+
+
 
         static void Main(string[] args)
         {
@@ -39,7 +99,9 @@ namespace Boostability_Route_Application_Repo
             };
 
             DisplayArray(listOfRoutes);
-            Console.WriteLine("");
+            DisplayArray(listOfRoutes2);
+            createRoutes(listOfRoutes);
+            createRoutes(listOfRoutes2);
         }
     }
 }

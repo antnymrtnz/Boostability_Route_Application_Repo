@@ -20,7 +20,7 @@ namespace Boostability_Route_Application_Repo
                 Console.WriteLine(arr[i]);
             }
         }
-        //Main code that will takin in the array and either give out successfull route list or runn error becuase of circular reference
+        //Main code that will take in the array and either give out successfull route list or runn error becuase of circular reference.
         static void createRoutes(string[] arrRoute)
         {
             Console.WriteLine("Final List of Routes:");
@@ -97,7 +97,7 @@ namespace Boostability_Route_Application_Repo
                 "/about-us.html -> /about",
                 "/product-1.html -> /seo"
             };
-
+            //added Unit tests
             DisplayArray(listOfRoutes);
             DisplayArray(listOfRoutes2);
             createRoutes(listOfRoutes);
